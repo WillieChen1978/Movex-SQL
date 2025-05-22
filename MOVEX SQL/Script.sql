@@ -1,0 +1,28 @@
+/*
+=================
+Author: QP118 Willie CHEN
+May 21, 2022
+Comments:
+BCUINV TF: Order invoice transactions (IT)
+ZCUORL　TF: Order line - extension (OZ)
+ACUORH　TF: Order Head (OH)
+OCUSMA
+MITMAS
+ACUORL
+
+Modified Log:
+
+=================
+*/
+
+SELECT
+   T03.*,T01.*,T02.*
+FROM
+    MVXBDTA888.BCUINV AS T01
+    LEFT JOIN MVXBDTA888.ZCUORL AS T02 ON
+    T01.ITCONO =T02.OZCONO AND 
+    T01.ITORNO =T02.OZORNO AND 
+    T01.ITPONR=T02.OZPONR 
+    LEFT JOIN MVXBDTA888.ACUORH AS T03 ON 
+    T01.ITCONO = T03.OHCONO AND T01.ITORNO =T03.OHORNO 
+    WHERE OHPRNO='Z-K50' AND OHAOTY='001' AND T02.OZZCHG IN ('R1','I2')
